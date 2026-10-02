@@ -9,20 +9,20 @@
   <meta property="og:description" content="Experiência, projetos e competências em desenvolvimento de software.">
   <meta property="og:type" content="website">
   <title>Yuri Medeiros · Desenvolvedor Full Stack</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 40'%3E%3Crect width='50' height='40' rx='8' fill='white'/%3E%3Cpath d='M3 7l10 13L23 7M13 20v13M26 11a12 12 0 1 1-2 15' fill='none' stroke='%2310143d' stroke-width='2.6'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2076%2040%22%3E%3Crect%20width%3D%2276%22%20height%3D%2240%22%20rx%3D%226%22%20fill%3D%22white%22%2F%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%2310143d%22%20stroke-width%3D%222.6%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3%207l10%2013L23%207M13%2020v13%22%2F%3E%3Ccircle%20cx%3D%2237%22%20cy%3D%2220%22%20r%3D%2212%22%2F%3E%3Cpath%20d%3D%22M54%2033V7l9%2014%209-14v26%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E">
   <style>
-    :root { color-scheme: light; --bg:#f8faff; --panel:rgb(255 255 255 / 58%); --line:rgb(110 135 190 / 18%); --text:#10143d; --muted:#646b80; --soft:#79849a; --accent:#2925ff; --accent-strong:#4545ff; --max:1120px; }
+    :root { color-scheme: light; --bg:#f8faff; --panel:rgb(255 255 255 / 58%); --panel-hover:rgb(255 255 255 / 85%); --line:rgb(110 135 190 / 18%); --text:#10143d; --muted:#646b80; --soft:#79849a; --accent:#2925ff; --accent-strong:#4545ff; --max:1120px; }
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; scroll-padding-top:100px; }
     body { margin:0; color:var(--text); background:var(--bg); font-family:Inter,"Segoe UI",Arial,sans-serif; line-height:1.6; }
-    body::before { content:""; position:fixed; inset:0; z-index:-1; background: url("assets/waves.svg") center bottom / cover no-repeat; }
+    body::before { content:""; position:fixed; inset:-1px; z-index:-1; background: url("assets/waves.svg") center bottom / 100% 100% no-repeat; }
     a { color:inherit; }
     a:focus-visible,button:focus-visible,[tabindex]:focus-visible { outline:3px solid var(--accent); outline-offset:5px; }
     .shell { width:min(calc(100% - 64px),var(--max)); margin-inline:auto; }
     .site-header { position:sticky; top:0; z-index:10; background:rgb(255 255 255 / 85%); backdrop-filter:blur(18px); border-bottom:1px solid var(--line); }
     .nav { height:78px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
     .brand { text-decoration:none; display:flex; align-items:center; }
-    .brand-mark { width:48px; height:38px; }
+    .brand-mark { width:74px; height:38px; }
     .nav-links { display:flex; gap:38px; list-style:none; margin:0; padding:0; }
     .nav-links a { position:relative; text-decoration:none; font-size:14px; color:#313545; }
     .nav-links a:hover,.nav-links a.active { color:var(--accent); }
@@ -48,7 +48,7 @@
     .skill-group { padding:20px; }
     .skill-group h3 { font-size:17px; }
     .skill-group p { font-size:14px; color:var(--muted); margin:0; }
-    #sobre { min-height:750px; }
+    #sobre { min-height:750px; padding-bottom:0; }
     .timeline { position:relative; width:50%; margin-left:50%; border-left:1px solid #8c94a9; padding:40px 0 50px 65px; }
     .timeline::before { content:""; position:absolute; top:48px; left:-7px; width:13px; height:13px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 5px #f5f8ff; }
     .timeline::after { content:""; position:absolute; top:54px; left:8px; width:40px; height:1px; background:var(--line); }
@@ -78,7 +78,8 @@
     .repo-card-footer { display:flex; justify-content:space-between; gap:12px; margin-top:auto; padding-top:10px; font-size:12px; }
     .repo-language { color:var(--accent); }
     .repo-link { text-underline-offset:3px; }
-    #formacao .section-heading,#certificados .section-heading { justify-content:center; text-align:center; }
+    #sobre .section-heading,#formacao .section-heading,#certificados .section-heading { justify-content:center; text-align:center; }
+    #sobre .section-heading h2 { margin-inline:auto; }
     .education-grid { text-align:center; }
     .education-card { padding:12px; }
     .education-card h3 { font-size:clamp(24px,3vw,32px); font-weight:500; letter-spacing:-.025em; margin-bottom:12px; }
@@ -89,10 +90,10 @@
     .credentials-grid { overflow:hidden; padding:12px 2px 24px; }
     .credentials-track { display:flex; gap:18px; width:max-content; animation:certificates-scroll 35s linear infinite; }
     .credentials-grid:has(:focus-visible) .credentials-track, .credentials-grid.modal-open .credentials-track { animation-play-state:paused; }
-    @media (hover:hover) and (pointer:fine) { .credentials-grid:not(.hover-reset):hover .credentials-track { animation-play-state:paused; } .credentials-grid:not(.hover-reset) .credential:hover { transform:translateY(-5px); background:rgb(255 255 255 / 85%); } }
+    @media (hover:hover) and (pointer:fine) { .credentials-grid:not(.hover-reset):hover .credentials-track { animation-play-state:paused; } .credentials-grid:not(.hover-reset) .credential:hover { transform:translateY(-5px); background:var(--panel-hover); } }
     @keyframes certificates-scroll { to { transform:translateX(calc(-50% - 9px)); } }
     .credential { flex:0 0 min(320px,80vw); width:min(320px,80vw); padding:24px; transition:transform .2s,background .2s; }
-    .credential:has(:focus-visible) { transform:translateY(-5px); background:rgb(255 255 255 / 85%); }
+    .credential:has(:focus-visible) { transform:translateY(-5px); background:var(--panel-hover); }
     .credential h3 { font-size:20px; }
     .credential p { font-size:13px; color:var(--muted); }
     #contato { padding:110px 0 100px; }
@@ -102,13 +103,13 @@
     .contact-links { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin:42px auto 0; max-width:940px; }
     .contact-links a { position:relative; min-height:145px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:15px; text-decoration:none; font-size:18px; font-weight:650; transition:transform .2s,background .2s; }
     .contact-links a::after { content:"↗"; position:absolute; top:10px; right:18px; color:var(--accent); }
-    .contact-links a:hover { transform:translateY(-5px); background:rgb(255 255 255 / 85%); }
+    .contact-links a:hover { transform:translateY(-5px); background:var(--panel-hover); }
     .contact-icon { width:42px; height:42px; color:var(--accent); }
     footer { padding:30px 0 45px; text-align:center; color:var(--muted); font-size:12px; }
     .footer-inner { display:flex; flex-direction:column; }
     .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
-    @media(max-width:780px) { .shell { width:calc(100% - 36px); } .nav-links { gap:18px; } .about-grid { grid-template-columns:1fr; gap:20px; } .timeline { width:100%; margin-left:0; padding-left:35px; } .timeline::after { width:20px; } .hero { padding-bottom:140px; } .section { padding:60px 0; } }
-    @media(max-width:560px) { .nav { height:auto; min-height:90px; flex-direction:column; gap:10px; padding:10px 0 15px; } .brand-mark { height:28px; } .nav-links { gap:16px; flex-wrap:wrap; justify-content:center; } .nav-links a { font-size:11px; } .hero { min-height:calc(100svh - 90px); } h1 { font-size:43px; } .eyebrow { font-size:10px; letter-spacing:.22em; } .skill-groups { grid-template-columns:1fr; } .section-heading { flex-direction:column; align-items:start; } .contact-links { grid-template-columns:1fr; } .contact-links a { min-height:105px; } .repo-card { flex-basis:85%; } .metric { padding:15px; } .metric-label { font-size:12px; } }
+    @media(max-width:780px) { body::before { background-image:url("assets/waves-mobile.svg"); } .shell { width:calc(100% - 36px); } .nav-links { gap:18px; } .about-grid { grid-template-columns:1fr; gap:20px; } .timeline { width:100%; margin-left:0; padding-left:35px; } .timeline::after { width:20px; } .hero { padding-bottom:140px; } .section { padding:60px 0; } }
+    @media(max-width:560px) { .nav { height:auto; min-height:90px; flex-direction:column; gap:10px; padding:10px 0 15px; } .brand-mark { height:28px; } .nav-links { gap:16px; flex-wrap:wrap; justify-content:center; } .nav-links a { font-size:11px; } .hero { min-height:calc(100svh - 90px); } h1 { font-size:43px; } .eyebrow { font-size:10px; letter-spacing:.22em; } .skill-groups { grid-template-columns:1fr; } .section-heading { flex-direction:column; align-items:start; } #sobre .section-heading { align-items:center; } .contact-links { grid-template-columns:1fr; } .contact-links a { min-height:105px; } .repo-card { flex-basis:85%; } .metric { padding:15px; } .metric-label { font-size:12px; } }
     @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { transition:none!important; animation:none!important; } .credentials-grid { overflow-x:auto; } .credential[aria-hidden="true"] { display:none; } }
 
     .repo-metrics { display:grid; grid-template-columns:1fr 1.15fr; align-items:stretch; gap:12px; }
@@ -181,18 +182,73 @@
     #github-activity-chart svg { display:block; width:100%; min-width:430px; height:auto; }
     .activity-scale[hidden] { display:none; }
     .activity-period { display:block; margin-top:5px; font-size:10px; color:var(--muted); }
+
+    :root[data-theme="dark"] { color-scheme:dark; --bg:#000109; --panel:rgb(19 27 48 / 78%); --panel-hover:rgb(31 43 70 / 94%); --line:rgb(159 177 223 / 24%); --text:#edf2ff; --muted:#cbd4e6; --soft:#b8c5dc; --accent:#a8b4ff; --accent-strong:#c0caff; }
+    [data-theme="dark"] body::before { background-image:url("assets/waves-dark.svg"); }
+    [data-theme="dark"] .site-header { background:rgb(12 18 34 / 88%); }
+    [data-theme="dark"] .nav-links a, [data-theme="dark"] h1 { color:#dce4f5; }
+    [data-theme="dark"] h1 strong { color:#fff; }
+    [data-theme="dark"] :where(main h1, main h2, main h3, main h4, main p, main time, main li, footer span):not(:where(.skill-group *, .credential *, .language-card *, .education-card *, .metric *, .repo-card *, .contact-links *, .certificate-dialog *)) { position:relative; isolation:isolate; width:fit-content; max-width:100%; }
+    [data-theme="dark"] :where(main h1, main h2, main h3, main h4, main p, main time, main li, footer span):not(:where(.skill-group *, .credential *, .language-card *, .education-card *, .metric *, .repo-card *, .contact-links *, .certificate-dialog *))::after { content:""; position:absolute; inset:-6px; z-index:-1; pointer-events:none; background:transparent; border-radius:8px; backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); mask-image:linear-gradient(to right,transparent,#000 6px,#000 calc(100% - 6px),transparent),linear-gradient(to bottom,transparent,#000 6px,#000 calc(100% - 6px),transparent); mask-composite:intersect; -webkit-mask-image:linear-gradient(to right,transparent,#000 6px,#000 calc(100% - 6px),transparent),linear-gradient(to bottom,transparent,#000 6px,#000 calc(100% - 6px),transparent); -webkit-mask-composite:source-in; }
+    [data-theme="dark"] .hero-grid :is(h1,p) { margin-inline:auto; }
+    [data-theme="dark"] main time { display:inline-block; }
+    [data-theme="dark"] .footer-inner span { align-self:center; }
+    [data-theme="dark"] .eyebrow { color:var(--muted); }
+    [data-theme="dark"] .skill-group, [data-theme="dark"] .credential, [data-theme="dark"] .language-card, [data-theme="dark"] .metric, [data-theme="dark"] .repo-card, [data-theme="dark"] .contact-links a { border-color:var(--line); box-shadow:0 4px 22px rgb(0 0 0 / 15%); }
+    [data-theme="dark"] .button, [data-theme="dark"] .repo-scroll-controls button { background:var(--panel); }
+    [data-theme="dark"] .button:hover, [data-theme="dark"] .repo-scroll-controls button:hover { background:#26334f; }
+    [data-theme="dark"] .timeline::before { box-shadow:0 0 0 5px var(--bg); }
+    [data-theme="dark"] .certificate-dialog, [data-theme="dark"] .certificate-pages { background:var(--bg); }
+    [data-theme="dark"] .activity-scroll img { mix-blend-mode:normal; }
+    .theme-toggle { display:grid; place-items:center; flex:0 0 38px; width:38px; height:38px; padding:0; border:1px solid var(--line); border-radius:50%; background:var(--panel); color:var(--text); cursor:pointer; }
+    .theme-toggle svg { width:19px; height:19px; }
+    .theme-toggle .sun, [data-theme="dark"] .theme-toggle .moon { display:none; }
+    [data-theme="dark"] .theme-toggle .sun { display:block; }
+    .nav { gap:16px; }
+    @media(max-width:780px) { [data-theme="dark"] body::before { background-image:url("assets/waves-dark-mobile.svg"); } }
+    @media(max-width:560px) { .nav { position:relative; } .theme-toggle { position:absolute; right:0; top:10px; } }
+    .trajectory-layout { display:grid; grid-template-columns:1fr 1fr; align-items:center; }
+    .trajectory-title { font-size:clamp(24px,2.3vw,30px); margin:0; }
+    .trajectory-layout .timeline { width:100%; margin-left:0; }
+    @media(max-width:780px) { .trajectory-layout { grid-template-columns:1fr; gap:28px; } .trajectory-title { justify-self:center; text-align:center; } }
+    #repositorios { position:relative; }
+    #repositorios::before, #repositorios::after { content:""; position:absolute; top:0; left:50%; transform:translateX(-50%); width:min(calc(100% - 64px),var(--max)); border-top:1px solid var(--line); }
+    #repositorios::after { top:auto; bottom:0; }
+    @media(max-width:780px) { #repositorios::before, #repositorios::after { width:calc(100% - 36px); } }
+    #repositorios .section-heading { position:relative; justify-content:center; text-align:center; flex-wrap:wrap; }
+    #repositorios .section-heading h2 { margin-inline:auto; }
+    #repositorios .section-heading > a { position:absolute; right:0; }
+    @media(max-width:780px) { #repositorios .section-heading { flex-direction:column; align-items:center; } #repositorios .section-heading > a { position:static; } }
+    #certificados .section-heading { justify-content:flex-start; text-align:left; }
+    @media(max-width:780px) { #certificados .section-heading { justify-content:center; align-items:center; text-align:center; } }
+    .repo-card { transition:transform .2s,background .2s; }
+    @media(hover:hover) and (pointer:fine) { .repo-card:hover { transform:translateY(-5px); background:var(--panel-hover); } }
+    .repo-card:has(:focus-visible) { transform:translateY(-5px); background:var(--panel-hover); }
+    .repo-rail { padding-top:10px; }
   </style>
+  <script>
+    (() => {
+      let theme = 'light';
+      try { const saved = localStorage.getItem('portfolio-theme'); if (saved === 'dark' || saved === 'light') theme = saved; } catch {}
+      document.documentElement.dataset.theme = theme;
+    })();
+  </script>
 </head>
 <body>
   <a class="sr-only" href="#conteudo">Pular para o conteúdo</a>
   <header class="site-header">
     <div class="shell nav">
-      <a class="brand" href="#inicio" aria-label="Yuri Medeiros, início"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 50 40" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M3 7l10 13L23 7M13 20v13M26 11a12 12 0 1 1-2 15"/></svg></a>
+      <a class="brand" href="#inicio" aria-label="Yuri Medeiros, início"><svg class="brand-mark" aria-hidden="true" viewBox="0 0 76 40" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l10 13L23 7M13 20v13"/><circle cx="37" cy="20" r="12"/><path d="M54 33V7l9 14 9-14v26"/></svg></a>
       <nav aria-label="Navegação principal">
         <ul class="nav-links">
           <li><a href="#inicio" class="active">Início</a></li><li><a href="#sobre">Sobre</a></li><li><a href="#repositorios">Projetos</a></li><li><a href="#contato">Contatos</a></li>
         </ul>
       </nav>
+      <button class="theme-toggle" type="button" aria-label="Ativar modo escuro" aria-pressed="false">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+      </button>
+
     </div>
   </header>
   <main id="conteudo">
@@ -203,6 +259,8 @@
     <section class="section" id="sobre" aria-labelledby="sobre-title">
       <div class="shell">
         <div class="section-heading"><div><h2 id="sobre-title">Sobre</h2></div></div>
+        <div class="trajectory-layout">
+        <h3 class="trajectory-title">Minha trajetória</h3>
         <article class="timeline">
           <time datetime="2022-05">Mai/2022 — atual</time>
           <div>
@@ -217,7 +275,27 @@
             </ul>
           </div>
         </article>
+        </div>
       </div>
+    <section class="section" id="formacao" aria-labelledby="formacao-title">
+      <div class="shell trajectory-layout">
+        <h3 id="formacao-title" class="trajectory-title">Formação</h3>
+        <div class="education-grid">
+          <article class="education-card"><h3>Engenharia de Software</h3><p>Universidade de Ribeirão Preto (UNAERP)</p><p>2023 — jun/2027 · Em andamento</p></article>
+          <article class="education-card"><h3>Idiomas</h3><p>Português · Nativo</p><p>Inglês · Básico (A1), em desenvolvimento</p></article>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="certificados" aria-labelledby="certificados-title">
+      <div class="shell">
+        <div class="section-heading"><div><h3 id="certificados-title" class="trajectory-title">Certificados</h3></div></div>
+        <div class="credentials-grid">
+          <article class="credential"><p class="card-kicker">DIO · 22 horas</p><h3>Formação Cybersecurity Specialist</h3><p>Concluída em 18 de setembro de 2026</p><p class="credential-description">Cibersegurança, Sistemas Operacionais, Redes de computadores, Ferramentas de testes de intrusão e Simulações de ataques em redes.</p><button class="button certificate-button" type="button" data-certificate="DZZNOZ62" aria-haspopup="dialog">Ver certificado</button></article>
+          <article class="credential"><p class="card-kicker">DIO · 34 horas</p><h3>React Developer</h3><p>Concluída em 15 de setembro de 2026</p><p class="credential-description">React, TypeScript, Next.js e Styled-Components.</p><button class="button certificate-button" type="button" data-certificate="VXFNSOPS" aria-haspopup="dialog">Ver certificado</button></article>
+          <article class="credential"><p class="card-kicker">DIO · 15 horas</p><h3>Docker Fundamentals</h3><p>Concluída em 22 de setembro de 2026</p><p class="credential-description">Containerização, Docker, Imagem Docker, Orquestração de containers com Docker Swarm, virtualização e Cluster.</p><button class="button certificate-button" type="button" data-certificate="CTYXA7ZM" aria-haspopup="dialog">Ver certificado</button></article>
+        </div>
+      </div>
+    </section>
     </section>
     <section class="section" id="repositorios" aria-labelledby="repos-title">
       <div class="shell">
@@ -249,28 +327,9 @@
         </div>
       </div>
     </section>
-    <section class="section" id="formacao" aria-labelledby="formacao-title">
-      <div class="shell">
-        <div class="section-heading"><div><h2 id="formacao-title">Formação</h2></div></div>
-        <div class="education-grid">
-          <article class="education-card"><h3>Engenharia de Software</h3><p>Universidade de Ribeirão Preto (UNAERP)</p><p>2023 — jun/2027 · Em andamento</p></article>
-          <article class="education-card"><h3>Idiomas</h3><p>Português · Nativo</p><p>Inglês · Básico (A1), em desenvolvimento</p></article>
-        </div>
-      </div>
-    </section>
-    <section class="section" id="certificados" aria-labelledby="certificados-title">
-      <div class="shell">
-        <div class="section-heading"><div><h2 id="certificados-title">Certificações</h2></div></div>
-        <div class="credentials-grid">
-          <article class="credential"><p class="card-kicker">DIO · 22 horas</p><h3>Formação Cybersecurity Specialist</h3><p>Concluída em 18 de setembro de 2026</p><p class="credential-description">Cibersegurança, Sistemas Operacionais, Redes de computadores, Ferramentas de testes de intrusão e Simulações de ataques em redes.</p><button class="button certificate-button" type="button" data-certificate="DZZNOZ62" aria-haspopup="dialog">Ver certificado</button></article>
-          <article class="credential"><p class="card-kicker">DIO · 34 horas</p><h3>React Developer</h3><p>Concluída em 15 de setembro de 2026</p><p class="credential-description">React, TypeScript, Next.js e Styled-Components.</p><button class="button certificate-button" type="button" data-certificate="VXFNSOPS" aria-haspopup="dialog">Ver certificado</button></article>
-          <article class="credential"><p class="card-kicker">DIO · 15 horas</p><h3>Docker Fundamentals</h3><p>Concluída em 22 de setembro de 2026</p><p class="credential-description">Containerização, Docker, Imagem Docker, Orquestração de containers com Docker Swarm, virtualização e Cluster.</p><button class="button certificate-button" type="button" data-certificate="CTYXA7ZM" aria-haspopup="dialog">Ver certificado</button></article>
-        </div>
-      </div>
-    </section>
     <section class="section" id="contato" aria-labelledby="contato-title">
       <div class="shell contact-panel">
-        <div><p class="section-kicker">Contato</p><h2 id="contato-title">Vamos conversar sobre a próxima oportunidade?</h2><p>Você está buscando alguém para fazer parte do seu time? Quero conhecer seus desafios e compartilhar como posso contribuir.<br>Disponível para oportunidades remotas e híbridas em Ribeirão Preto, SP.</p></div>
+        <div><h2 id="contato-title">Vamos conversar sobre a próxima oportunidade?</h2><p>Você está buscando alguém para fazer parte do seu time? Quero conhecer seus desafios e compartilhar como posso contribuir.<br>Disponível para oportunidades remotas e híbridas em Ribeirão Preto, SP.</p></div>
         <div class="contact-links"><a href="mailto:yuri06medeiros@gmail.com"><svg class="contact-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><rect x="3" y="6" width="34" height="26" rx="4"/><path d="m4 8 16 13L36 8"/></svg>E-mail</a><a href="https://linkedin.com/in/yuri-ogrizio" target="_blank" rel="noopener noreferrer"><svg class="contact-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><rect x="3" y="3" width="34" height="34" rx="5"/><path d="M11 17v14M11 10v1M19 31V17m0 6c0-8 11-8 11 0v8"/></svg>LinkedIn</a><a href="https://github.com/Yuri-Medeiros" target="_blank" rel="noopener noreferrer"><svg class="contact-icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M20 3a17 17 0 0 0-5 33v-6c-5 1-6-2-7-4m17 10v-7c0-2-1-3-2-4 6-1 10-3 10-9 0-3-1-5-3-7 0-2 0-4-1-5l-7 3h-5l-7-3c-1 2-1 4-1 5-2 2-3 4-3 7 0 6 4 8 10 9-1 1-1 3-1 4"/></svg>GitHub</a></div>
       </div>
     </section>
@@ -281,6 +340,21 @@
     <div class="certificate-pages" id="certificate-pages" aria-label="Páginas do certificado"></div>
   </dialog>
   <script>
+
+    const themeButton = document.querySelector('.theme-toggle');
+    const syncTheme = () => {
+      const dark = document.documentElement.dataset.theme === 'dark';
+      themeButton.setAttribute('aria-pressed', String(dark));
+      themeButton.setAttribute('aria-label', dark ? 'Ativar modo claro' : 'Ativar modo escuro');
+      document.querySelector('meta[name="theme-color"]').content = dark ? '#000109' : '#f8faff';
+    };
+    themeButton.addEventListener('click', () => {
+      const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.dataset.theme = theme;
+      try { localStorage.setItem('portfolio-theme', theme); } catch {}
+      syncTheme();
+    });
+    syncTheme();
     const certificatesCarousel = document.querySelector('.credentials-grid');
     const certificatesTrack = document.createElement('div');
     certificatesTrack.className = 'credentials-track';
