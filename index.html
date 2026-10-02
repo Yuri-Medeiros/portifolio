@@ -15,7 +15,14 @@
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; scroll-padding-top:100px; }
     body { margin:0; color:var(--text); background:var(--bg); font-family:Inter,"Segoe UI",Arial,sans-serif; line-height:1.6; }
-    body::before { content:""; position:fixed; inset:-1px; z-index:-1; background: url("assets/waves.svg") center bottom / 100% 100% no-repeat; }
+    body::before { content:""; position:fixed; inset:-8%; z-index:-1; pointer-events:none; background:url("assets/waves.svg") center bottom / 100% 100% no-repeat; transform-origin:50% 75%; animation:background-waves 16s ease-in-out infinite; will-change:transform; }
+    @keyframes background-waves {
+      0%,100% { transform:translate3d(-2.5%,1.2%,0) skewX(-1.5deg) scale(1.03); }
+      25% { transform:translate3d(2.5%,-1.8%,0) skewX(2deg) scale(1.055); }
+      50% { transform:translate3d(3.5%,2%,0) skewX(-1deg) scale(1.03); }
+      75% { transform:translate3d(-2%,-1.2%,0) skewX(-2.5deg) scale(1.045); }
+    }
+    @media(prefers-reduced-motion:reduce) { body::before { inset:-1px; transform:none; animation:none; will-change:auto; } }
     a { color:inherit; }
     a:focus-visible,button:focus-visible,[tabindex]:focus-visible { outline:3px solid var(--accent); outline-offset:5px; }
     .shell { width:min(calc(100% - 64px),var(--max)); margin-inline:auto; }
