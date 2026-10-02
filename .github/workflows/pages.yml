@@ -3,6 +3,8 @@ name: Publicar portfólio no GitHub Pages
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: "17 6 * * *"
   workflow_dispatch:
 
 permissions:
@@ -33,6 +35,10 @@ jobs:
           if [ -d assets ]; then
             cp -R assets _site/assets
           fi
+      - name: Consultar contribuições anuais no GitHub
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/fetch-contributions.py _site/assets/contributions.json
       - name: Gerar artifact de publicação
         uses: actions/upload-pages-artifact@v4
         with:
