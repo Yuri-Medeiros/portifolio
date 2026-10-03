@@ -109,11 +109,9 @@
     .education-card + .education-card { margin-top:35px; }
     .education-card + .education-card h3 { font-size:22px; }
     .education-card + .education-card p { font-size:15px; }
-    .credentials-grid { overflow:hidden; padding:12px 2px 24px; }
-    .credentials-track { display:flex; gap:18px; width:max-content; animation:certificates-scroll 35s linear infinite; }
-    .credentials-grid:has(:focus-visible) .credentials-track, .credentials-grid.modal-open .credentials-track { animation-play-state:paused; }
-    @media (hover:hover) and (pointer:fine) { .credentials-grid:not(.hover-reset):hover .credentials-track { animation-play-state:paused; } .credentials-grid:not(.hover-reset) .credential:hover { transform:translateY(-5px); background:var(--panel-hover); } }
-    @keyframes certificates-scroll { to { transform:translateX(calc(-50% - 9px)); } }
+    .credentials-grid { display:flex; gap:18px; overflow-x:auto; padding:12px 2px 24px; scrollbar-width:thin; cursor:grab; }
+    .credentials-grid.is-dragging { cursor:grabbing; user-select:none; }
+    @media (hover:hover) and (pointer:fine) { .credentials-grid:not(.hover-reset) .credential:hover { transform:translateY(-5px); background:var(--panel-hover); } }
     .credential { flex:0 0 min(320px,80vw); width:min(320px,80vw); padding:24px; transition:transform .2s,background .2s; }
     .credential:has(:focus-visible) { transform:translateY(-5px); background:var(--panel-hover); }
     .credential h3 { font-size:20px; }
@@ -321,7 +319,7 @@
     <section class="section" id="certificados" aria-labelledby="certificados-title">
       <div class="shell">
         <div class="section-heading"><div><h3 id="certificados-title" class="trajectory-title">Certificados</h3></div></div>
-        <div class="credentials-grid">
+        <div class="credentials-grid" tabindex="0" role="region" aria-label="Certificados: deslize ou arraste para navegar">
           <article class="credential"><p class="card-kicker">DIO · 22 horas</p><h3>Formação Cybersecurity Specialist</h3><p>Concluída em 18 de setembro de 2026</p><p class="credential-description">Cibersegurança, Sistemas Operacionais, Redes de computadores, Ferramentas de testes de intrusão e Simulações de ataques em redes.</p><button class="button certificate-button" type="button" data-certificate="DZZNOZ62" aria-haspopup="dialog">Ver certificado</button></article>
           <article class="credential"><p class="card-kicker">DIO · 34 horas</p><h3>React Developer</h3><p>Concluída em 15 de setembro de 2026</p><p class="credential-description">React, TypeScript, Next.js e Styled-Components.</p><button class="button certificate-button" type="button" data-certificate="VXFNSOPS" aria-haspopup="dialog">Ver certificado</button></article>
           <article class="credential"><p class="card-kicker">DIO · 15 horas</p><h3>Docker Fundamentals</h3><p>Concluída em 22 de setembro de 2026</p><p class="credential-description">Containerização, Docker, Imagem Docker, Orquestração de containers com Docker Swarm, virtualização e Cluster.</p><button class="button certificate-button" type="button" data-certificate="CTYXA7ZM" aria-haspopup="dialog">Ver certificado</button></article>
@@ -381,6 +379,7 @@
       const label = hero.querySelector('.eyebrow');
       const summary = hero.querySelector('.hero-summary');
       const motion = matchMedia('(prefers-reduced-motion: reduce)');
+      const mobile = matchMedia('(max-width: 780px), (pointer: coarse)');
       let start = 0, distance = 1, travel = 0, frame = 0;
       const render = () => {
         frame = 0;
@@ -393,7 +392,7 @@
       };
       const measure = () => {
         hero.classList.remove('is-animated');
-        if (motion.matches) return;
+        if (motion.matches || mobile.matches) return;
         const headerHeight = document.querySelector('.site-header').getBoundingClientRect().height;
         const viewportHeight = window.innerHeight - headerHeight;
         hero.style.setProperty('--hero-lift', '0px');
@@ -418,6 +417,7 @@
       }, {passive:true});
       window.addEventListener('resize', measure);
       motion.addEventListener('change', measure);
+      mobile.addEventListener('change', measure);
       document.fonts.ready.then(measure);
       measure();
     })();
@@ -462,17 +462,54 @@
     });
     syncTheme();
     const certificatesCarousel = document.querySelector('.credentials-grid');
-    const certificatesTrack = document.createElement('div');
-    certificatesTrack.className = 'credentials-track';
-    const originalCertificates = [...certificatesCarousel.children];
-    originalCertificates.forEach(card => certificatesTrack.append(card));
-    originalCertificates.forEach(card => {
-      const copy = card.cloneNode(true);
-      copy.setAttribute('aria-hidden', 'true');
-      copy.querySelectorAll('button').forEach(button => button.tabIndex = -1);
-      certificatesTrack.append(copy);
+    // Touch uses native scrolling so vertical gestures keep scrolling the page.
+    // Capture a mouse pointer only once an actual drag has started.
+    let certificateDrag = null;
+    let suppressCertificateClick = false;
+    certificatesCarousel.addEventListener('pointerdown', event => {
+      if (event.pointerType !== 'mouse' || event.button !== 0) return;
+      suppressCertificateClick = false;
+      certificateDrag = {id:event.pointerId, x:event.clientX, y:event.clientY, left:certificatesCarousel.scrollLeft, moved:false};
     });
-    certificatesCarousel.append(certificatesTrack);
+    certificatesCarousel.addEventListener('pointermove', event => {
+      const drag = certificateDrag;
+      if (!drag || drag.id !== event.pointerId) return;
+      const dx = event.clientX - drag.x;
+      if (!drag.moved) {
+        if (Math.abs(dx) < 6 || Math.abs(dx) < Math.abs(event.clientY - drag.y)) return;
+        drag.moved = true;
+        certificatesCarousel.setPointerCapture(event.pointerId);
+        certificatesCarousel.classList.add('is-dragging');
+      }
+      event.preventDefault();
+      certificatesCarousel.scrollLeft = drag.left - dx;
+    });
+    const endCertificateDrag = event => {
+      if (!certificateDrag || certificateDrag.id !== event.pointerId) return;
+      suppressCertificateClick = certificateDrag.moved && event.type === 'pointerup';
+      certificateDrag = null;
+      certificatesCarousel.classList.remove('is-dragging');
+      if (certificatesCarousel.hasPointerCapture(event.pointerId)) certificatesCarousel.releasePointerCapture(event.pointerId);
+    };
+    window.addEventListener('pointerup', endCertificateDrag);
+    window.addEventListener('pointercancel', endCertificateDrag);
+    certificatesCarousel.addEventListener('lostpointercapture', endCertificateDrag);
+    certificatesCarousel.addEventListener('pointerleave', event => {
+      if (certificateDrag && !certificateDrag.moved) endCertificateDrag(event);
+    });
+    certificatesCarousel.addEventListener('click', event => {
+      if (!suppressCertificateClick || event.detail === 0) return;
+      suppressCertificateClick = false;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+    certificatesCarousel.addEventListener('keydown', event => {
+      if (event.target !== certificatesCarousel || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      const step = certificatesCarousel.querySelector('.credential').getBoundingClientRect().width + 18;
+      const left = event.key === 'Home' ? 0 : event.key === 'End' ? certificatesCarousel.scrollWidth : certificatesCarousel.scrollLeft + (event.key === 'ArrowRight' ? step : -step);
+      certificatesCarousel.scrollTo({left, behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+    });
 
     const certificateImages = {"CTYXA7ZM": ["assets/certificates/CTYXA7ZM-1.jpg"], "VXFNSOPS": ["assets/certificates/VXFNSOPS-1.jpg"], "DZZNOZ62": ["assets/certificates/DZZNOZ62-1.jpg"]};
     const certificateDialog = document.getElementById('certificate-dialog');
